@@ -4,15 +4,15 @@ String.prototype.format = function(args){
 	if(arguments.length > 0){	
 		if(arguments.length == 1 && typeof(args) == "object"){
 			for(var key in args){
-				if(args[key]!=undefined){
-					var reg = new RegExp("({" + key + "})", "g");
+				if(args[key] != undefined){
+					var reg = new RegExp("\\{" + key + "\\}", "g");
 					result = result.replace(reg, args[key]);
 				}
 			}
 		}else{
 			for(var i = 0;i < arguments.length; i++){
 				if(arguments[i] != undefined){
-					var reg = new RegExp("({)" + i + "(})", "g");
+					var reg = new RegExp("\\{" + i + "\\}", "g");
 					result = result.replace(reg, arguments[i]);
 				}
 			}
@@ -76,13 +76,6 @@ var generate = function(event_ID, place_order, dates){
 			new ClipboardJS(button);
 		}
 	}
-};
-
-var test = function(){
-	var node = document.createElement("h2");
-	var text = document.createTextNode("hello!");
-	node.appendChild(text);
-	document.getElementById("app").appendChild(node);
 }
 
 var test_generate = function(event_ID, place_order, dates){
