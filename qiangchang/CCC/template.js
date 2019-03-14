@@ -23,7 +23,7 @@ String.prototype.format = function(args){
 
 var template = "https://host.cc.ntu.edu.tw/activities/placeApplyDetail.aspx?From=placeApply.aspx&Place_ID={place}&Act_ID={event}&Start=18:00&End=21:30&Date={date}";
 
-var place_map = {103: '2', 104: '9', 202: '3'};
+var place_map = {103: '2', 104: '9', 202: '3', '新生102': '52', '新生103': '53', '新生202': '54', '新生203': '55', '新生204': '66', '新生302': '59', '新生303': '60', '新生304': '61'};
 
 var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 
@@ -81,7 +81,15 @@ var generate = function(event_ID, place_order, dates){
 var test_generate = function(event_ID, place_order, dates){
 	document.getElementById("testActID").value = event_ID;
 	if(place_order.length > 0){
-		document.getElementById("testPlaceID").value = place_map[place_order[0]];
+		var node = document.getElementById("testPlaceID");
+		node.value = place_map[place_order[0]];
+		for(var j = 0;j < place_order.length;j++){
+			var place = place_order[j];
+			var option = document.createElement("option");
+			option.value = place_map[place];
+			option.appendChild(document.createTextNode("{0}: {1}".format(place_map[place], place)));
+			node.appendChild(option);
+		}
 	}
 	if(dates.length > 0){
 		document.getElementById("testYear").value = dates[0].getUTCFullYear();
