@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title id="title"></title>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 	<script type="text/javascript" src="../template.js"></script>
 	<script type="text/javascript">
 		//define variables of this page
