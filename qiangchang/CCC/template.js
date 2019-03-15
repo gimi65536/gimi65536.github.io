@@ -21,9 +21,21 @@ String.prototype.format = function(args){
 	return result;
 }
 
-var template = "https://host.cc.ntu.edu.tw/activities/placeApplyDetail.aspx?From=placeApply.aspx&Place_ID={place}&Act_ID={event}&Start=18:00&End=21:30&Date={date}";
+var template = "https://host.cc.ntu.edu.tw/activities/placeApplyDetail.aspx?From=placeApply.aspx&Place_ID={place}&Act_ID={event}&Start={start}&End={end}&Date={date}";
 
-var place_map = {103: '2', 104: '9', 202: '3', '新生102': '52', '新生103': '53', '新生202': '54', '新生203': '55', '新生204': '66', '新生302': '59', '新生303': '60', '新生304': '61'};
+var place_map = {
+	103: {id: '2', start: '18:00', end: '21:30'},
+	104: {id: '9', start: '18:00', end: '21:30'},
+	202: {id: '3', start: '18:00', end: '21:30'},
+	'新生102': {id: '52', start: '18:30', end: '21:30'},
+	'新生103': {id: '53', start: '18:30', end: '21:30'},
+	'新生202': {id: '54', start: '18:30', end: '21:30'},
+	'新生203': {id: '55', start: '18:30', end: '21:30'},
+	'新生204': {id: '66', start: '18:30', end: '21:30'},
+	'新生302': {id: '59', start: '18:30', end: '21:30'},
+	'新生303': {id: '60', start: '18:30', end: '21:30'},
+	'新生304': {id: '61', start: '18:30', end: '21:30'},
+	'測試 空格 123': {id: '9487', start: '00:00', end: '24:00'}};
 
 var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 
@@ -58,7 +70,8 @@ var generate = function(event_ID, place_order, dates){
 		div_node.appendChild(h2_node);
 		for(var j = 0;j < place_order.length;j++){
 			var place = place_order[j];
-			var address = template_with_event_date.format({place: place_map[place]});
+			var place_info = place_map[place];
+			var address = template_with_event_date.format({place: place_info['id'], start: place_info['start'], end: place_info['end']});
 			div_node.appendChild(document.createTextNode(place + "教室"));
 			div_node.appendChild(document.createTextNode(String.fromCharCode(160)));
 			var a_node = document.createElement("a");
@@ -81,13 +94,16 @@ var generate = function(event_ID, place_order, dates){
 var test_generate = function(event_ID, place_order, dates){
 	document.getElementById("testActID").value = event_ID;
 	if(place_order.length > 0){
-		var node = document.getElementById("testPlaceID");
-		node.value = place_map[place_order[0]];
+		var node = document.getElementById("testPlace");
+		var place_info_0 = place_map[place_order[0]];
+		node.value = place_order[0];
+		document.getElementById("testStart").value = place_info_0['start'];
+		document.getElementById("testEnd").value = place_info_0['end'];
 		for(var j = 0;j < place_order.length;j++){
 			var place = place_order[j];
 			var option = document.createElement("option");
-			option.value = place_map[place];
-			option.appendChild(document.createTextNode("{0}: {1}".format(place_map[place], place)));
+			option.value = place;
+			option.appendChild(document.createTextNode("{0}: {1}".format(place_map[place]['id'], place)));
 			node.appendChild(option);
 		}
 	}
@@ -98,9 +114,12 @@ var test_generate = function(event_ID, place_order, dates){
 	}
 	new ClipboardJS(document.getElementById("testButton"), {
 		text: function(trigger) {
+			var place_info = place_map[document.getElementById("testPlace").value];
 			return template.format({
-				place: document.getElementById("testPlaceID").value,
+				place: place_info['id'],
 				event: document.getElementById("testActID").value,
+				start: document.getElementById("testStart").value,
+				end: document.getElementById("testEnd").value,
 				date: "{y}/{m}/{d}".format({
 					y: document.getElementById("testYear").value,
 					m: document.getElementById("testMonth").value,
@@ -109,4 +128,10 @@ var test_generate = function(event_ID, place_order, dates){
 			});
 		}
 	});
+}
+
+var onChangeOfTestPlaceID = function(){
+	var place_info = place_map[document.getElementById("testPlace").value];
+	document.getElementById("testStart").value = place_info['start'];
+	document.getElementById("testEnd").value = place_info['end'];
 }
