@@ -1,3 +1,26 @@
+var place_map = {
+	103: {id: '2', start: '18:00', end: '21:30'},
+	104: {id: '9', start: '18:00', end: '21:30'},
+	202: {id: '3', start: '18:00', end: '21:30'},
+	'新生102': {id: '52', start: '18:30', end: '21:30'},
+	'新生103': {id: '53', start: '18:30', end: '21:30'},
+	'新生202': {id: '54', start: '18:30', end: '21:30'},
+	'新生203': {id: '55', start: '18:30', end: '21:30'},
+	'新生204': {id: '66', start: '18:30', end: '21:30'},
+	'新生302': {id: '59', start: '18:30', end: '21:30'},
+	'新生303': {id: '60', start: '18:30', end: '21:30'},
+	'新生304': {id: '61', start: '18:30', end: '21:30'},
+	//請在此續寫
+	//'場地名稱': {id: '場地代碼', start: '場地使用的開始時間', end: '場地使用的結束時間'},
+	'測試 空格 123': {id: '9487', start: '00:00', end: '24:00'}};
+
+//場地使用的開始與結束時間，與場地本身和使用時段(上午下午晚上)有關
+//例如活大103 104 202的晚上時段，都是18:00~21:30，而新生晚上時段都是18:30~21:30，時間錯誤會無法進入借場介面！
+
+var template = "https://host.cc.ntu.edu.tw/activities/placeApplyDetail.aspx?From=placeApply.aspx&Place_ID={place}&Act_ID={event}&Start={start}&End={end}&Date={date}";
+
+var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+
 // https://blog.csdn.net/a258831020/article/details/46988887
 String.prototype.format = function(args){
 	var result = this;
@@ -20,24 +43,6 @@ String.prototype.format = function(args){
 	}
 	return result;
 }
-
-var template = "https://host.cc.ntu.edu.tw/activities/placeApplyDetail.aspx?From=placeApply.aspx&Place_ID={place}&Act_ID={event}&Start={start}&End={end}&Date={date}";
-
-var place_map = {
-	103: {id: '2', start: '18:00', end: '21:30'},
-	104: {id: '9', start: '18:00', end: '21:30'},
-	202: {id: '3', start: '18:00', end: '21:30'},
-	'新生102': {id: '52', start: '18:30', end: '21:30'},
-	'新生103': {id: '53', start: '18:30', end: '21:30'},
-	'新生202': {id: '54', start: '18:30', end: '21:30'},
-	'新生203': {id: '55', start: '18:30', end: '21:30'},
-	'新生204': {id: '66', start: '18:30', end: '21:30'},
-	'新生302': {id: '59', start: '18:30', end: '21:30'},
-	'新生303': {id: '60', start: '18:30', end: '21:30'},
-	'新生304': {id: '61', start: '18:30', end: '21:30'},
-	'測試 空格 123': {id: '9487', start: '00:00', end: '24:00'}};
-
-var weekday = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
 
 var give_datestring = function(date){
 	return "{0}/{1}/{2}".format(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
