@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+	crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
+	<script type="text/javascript">
+	var csvfile, ends;
+	</script>
+</head>
+<body>
+	<button onclick="console.log(ends);">123</button>
+	<table id="tb"></table>
+	<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url: "siritori_zh.csv",
+			dataType: "text"
+		}).done(function(data){
+			csvfile = Papa.parse(data, {header: true, skipEmptyLines: true});
+			ends = csvfile.data.map(d => d['結尾']);
+			ends.sort();
+			ends = Array.from(new Set(ends));
+			const columns = 5;
+			const rows = Math.ceil(ends.length / columns);
+
+			var tableNode = document.getElementById("tb");
+			for(var i = 0;i < ends.length;i++){
+				if(i % columns == 0){
+					var rowNode = tableNode.insertRow();
+				}
+				var val = ends[i];
+				var gridNode = rowNode.insertCell();
+				$("<input>", {type: "checkbox", value: val}).appendTo(gridNode);
+				$("<label>" + val + "</label>").appendTo(gridNode);
+				//gridNode.textContent = ends[i];
+			}
+		});
+	});
+	</script>
+</body>
+</html>
